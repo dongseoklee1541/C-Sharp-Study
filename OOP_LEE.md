@@ -39,7 +39,7 @@ OOP(Object-Oriented Programming) 이란 무엇인가?
 
 두번째는 좋은 객체를 만드는 법이다. 이것을 다른 말로는 설계를 잘하는 법이라고 할 수 있다. 좋은 설계는 현실을 잘 반영해야 한다. 현실은 복잡하지만 복잡한 모든것을 반영할 필요는 없다.
 
-[subway](https://s3.ap-northeast-2.amazonaws.com/opentutorials-user-file/module/516/1854.gif)
+![subway](https://s3.ap-northeast-2.amazonaws.com/opentutorials-user-file/module/516/1854.gif)
 ---------------------------------------
 
 출처 : 객체지향 프로그래밍 - 생활코딩 
