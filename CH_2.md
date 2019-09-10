@@ -37,8 +37,29 @@ namespace 네임스페이스_이름
 
 static ? 한정자로 메소드나 변수를 수식하는 역할을 한다. C# 프로그램의 각 요소는 코드가 실행되는 시점에 메모리에 할당되지만 static 키워드로 수식되는 코드는 프로그램이 처음 구동될 때부터 메모리에 할당된다.
 
-프로그램이 실행되면 CLR(Common Language Runtime)[^1]은 프로그램을 메모리에 올린 후,
+프로그램이 실행되면 CLR(Common Language Runtime)은 프로그램을 메모리에 올린 후, 프로그램의 진입점을 찾는데 이때 만약 Main() 메소드가 static으로 수식되있지 않으면 CLR은 진입점을 찾지 못할것이다. 
 
-[^1] :자바가상머신과 역할이 비슷하다.
 
+```cs
+using System;
+using static System.Console;
+// CH.2의 연습문제
+namespace BrainCSharp
+{
+    class HelloWorld
+    {
+        static void Main(string[] args)
+        {
+            if(args.Length == 0)
+            {
+                Console.WriteLine("여러분, 안녕하세요?");
+                Console.WriteLine("반갑습니다!");
+                return;
+            }
+
+            WriteLine("Hello,{0}!", args[0]);
+        }
+    }
+}
+```
 출처 : 이것이 C#이다(저자 : 박상현 , 출판사 : 한빛미디어) CH.2 처음 만드는 C#프로그램
