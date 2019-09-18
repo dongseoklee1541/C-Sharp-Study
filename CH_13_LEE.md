@@ -349,3 +349,97 @@ namespace AnontmousMethod
 
 </div>
 </details>
+
+### 이벤트 : 객체에 일어난 사건 알리기
+
+<details>
+<summary>예시 코드</summary>
+<div markdown="1">
+    
+```c#
+using System;
+
+namespace EventTest
+{
+    delegate void EventHandler(string message);
+
+    class MyNotifier
+    {
+        public event EventHandler SomethingHappend;
+        public void DoSomething(int number)
+        {
+            int temp = number % 10;
+
+            if (temp != 0 && temp % 3 == 0)
+            {
+                SomethingHappend(string.Format($"{number} : 짝"));
+            }
+        }
+    }
+
+    class MainApp
+    {
+        static public void MyHandler(string message)
+        {
+            Console.WriteLine(message);
+        }
+        static void Main(string[] args)
+        {
+            MyNotifier notifier = new MyNotifier();
+            notifier.SomethingHappend += new EventHandler(MyHandler);
+
+            for(int i=1;i<30;i++)
+            {
+                notifier.DoSomething(i);
+            }
+        }
+    }
+}
+```
+
+</div>
+</details>
+
+#### 연습문제
+
+<details>
+<summary>예시 코드</summary>
+<div markdown="1">
+    
+```c#
+using System;
+
+namespace Ex13_2
+{
+    delegate void Mydelgate(int a);
+    class Market
+    {
+        public event Mydelgate CustomEvent;
+
+        public void BuySomething(int CustomerNo)
+        {
+            if (CustomerNo == 30)
+                CustomEvent(CustomerNo);
+        }
+    }
+    
+    class MainApp
+    {
+        public static void eve(int a)
+        {
+            Console.WriteLine($"축하합니다! {a}번쨰 고객 이벤트에 당첨되셨습니다.");
+        }
+        static void Main(string[] args)
+        {
+            Market market = new Market();
+            market.CustomEvent += new Mydelgate(eve);
+
+            for (int customerNo = 0; customerNo < 100; customerNo += 10)
+                market.BuySomething(customerNo);
+        }
+    }
+}
+```
+
+</div>
+</details>
