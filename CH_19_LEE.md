@@ -16,7 +16,9 @@ namespace BasicThread
         }
         static void Main(string[] args)
         {
-            Thread t1 = new Thread(new ThreadStart(DoSomething));
+            Thread t1 = new Thread(new ThreadStart(DoSomething)); // 밑의 2줄을 한번에 작성한 코드
+            // ThreadStart thstart = new ThreadStart(Dosomething);
+            // Thread t1 = new Tthread(thstart);
             t1.Start();
 
             for (int i = 0; i < 5; i++)
