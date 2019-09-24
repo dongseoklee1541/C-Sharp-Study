@@ -479,4 +479,162 @@ namespace TaskResult
     }
 }
 ```
-   
+
+### Parallel, 손쉬운 병렬처리
+Parallel.For() 메소드는 메소드를 병렬로 호출하면서 몇 개의 스레드를 사용할지는 Parallel 클래스가 내부적으로 판단하여 최적화 한다. 즉 위의 코드에서 Task의 갯수와 범위를 지정해주는 코드는 필요가 없다.
+
+```c#
+using System;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
+
+namespace ParallelLoop
+{
+    class MainApp
+    {
+        static bool IsPrime(long number)
+        {
+            if (number < 2)
+                return false;
+
+            if (number % 2 == 0 && number != 2)
+                return false;
+
+            for (long i = 2; i < number; i++)
+            {
+                if (number % i == 0)
+                    return false;
+            }
+            return true;
+        }
+        static void Main(string[] args)
+        {
+            long from = Convert.ToInt64(args[0]);
+            long to = Convert.ToInt64(args[1]);
+           
+
+            Console.WriteLine("Please press enter to start...");
+            Console.ReadLine();
+            Console.WriteLine("Started...");
+
+            DateTime startTime = DateTime.Now;
+            List<long> total = new List<long>();
+
+            Parallel.For(from, to, (long i) =>
+              {
+                  if (IsPrime(i))
+                      total.Add(i);
+              });
+            
+            DateTime endTime = DateTime.Now;
+
+            TimeSpan ellapsed = endTime - startTime;
+
+            Console.WriteLine("Prime number count between {0} and {1} : {2}",
+                from, to, total.Count);
+            Console.WriteLine("Ellapsed time : {0}", ellapsed);
+        }
+    }
+}
+```
+위와 같이 단순히 범위를 지정하면 Parallel이 알아서 스레드의 개수를 지정하여 병렬로 실행한다.
+
+### Async
+
+```c#
+using System;
+using System.Threading.Tasks;
+
+namespace Async
+{
+    class MainApp
+    {
+        async static private void MyMethodAsync(int count) // async로 들어와서 
+        {
+            Console.WriteLine("C");
+            Console.WriteLine("D");
+
+            await Task.Run(async () => // await에서 실행시킨체 호출자로 돌아간다.
+            {
+                for (int i = 0; i <= count; i++)
+                {
+                    Console.WriteLine($"{i}/{count} ...");
+                    await Task.Delay(100); // Task.Delay()는 Thread.Sleep()의 비동기 버전
+                }
+            });
+
+            Console.WriteLine("G");
+            Console.WriteLine("H");
+        }
+        static void Caller()
+        {
+            Console.WriteLine("A");
+            Console.WriteLine("B");
+
+            MyMethodAsync(3);
+
+            Console.WriteLine("E");
+            Console.WriteLine("F");
+        }
+            static void Main(string[] args)
+        {
+            Caller();
+
+            Console.ReadLine();
+        }
+    }
+}
+```
+
+
+```c#
+using System;
+using System.IO;
+using System.Threading.Tasks;
+
+namespace AsyncFileIO
+{
+    class MainApp
+    {
+        //파일 복사 후 복사한 파일 용량 반환
+        static async Task<long> CopyAsync(string FromPath, string ToPath)
+        {
+            using (
+                var fromStream = new FileStream(FromPath, FileMode.Open)) // 파일 열어
+            {
+                long totalCopied = 0;
+
+                using (
+                    var toStream = new FileStream(ToPath, FileMode.Create)) // 파일 복사
+                {
+                    byte[] buffer = new byte[1024];
+                    int nRead = 0;
+                    while ((nRead =
+                        await fromStream.ReadAsync(buffer, 0, buffer.Length)) != 0)
+                    {
+                        await toStream.WriteAsync(buffer, 0, nRead);
+                        totalCopied += nRead;
+                    }
+                }
+                return totalCopied;
+            }
+        }
+        static async void DoCopy(string FromPath,string ToPath)
+        {
+            long totalCpoied = await CopyAsync(FromPath, ToPath);
+            Console.WriteLine($"Copied Total {totalCpoied} Bytes.");
+        }
+            static void Main(string[] args)
+        {
+            if(args.Length <2)
+            {
+                Console.WriteLine("Usage : AsyncFileIO <Source> <Destination>");
+                return;
+            }
+            DoCopy(args[0], args[1]);
+            Console.ReadLine();
+        }
+    }
+}
+```
