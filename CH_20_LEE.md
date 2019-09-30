@@ -1,3 +1,26 @@
+### Programs.cs
+
+Programs.cs에 들어가 있는, 자동으로 생성되는 메서드들
+
+#### Application.EnableVisualStyles();
+* 폼의 스타일 설정
+* 색,글꼴,테마 등으로 시각적인 요소 설정의 허가
+> 운영체제로부터 가져옴
+
+#### Application.SetCompatibleTextRenderingDefault(false);
+* 폼에 출력할 극자의 렌더링을 GDI vs GDI+ 결정
+> false -> GDI
+
+> true -> GDI+(글자를 회전하거나, 그림글자를 출력할때 사용, GDI의 업그레이드 버전)
+
+#### Application.Run()
+* 메시지 루프를 실행과 출력할 폼 설정
+* public static void Run()
+
+#### partial
+* 클래스나 구조체, 인터페이스, 메서드의 정의를 둘 이상의 소스 파일로 분할
+* 규모가 큰 프로젝트일 때 하나의 파일에 다수가 접근할 때 사용
+
 ```c#
 using System;
 using System.Windows.Forms;
