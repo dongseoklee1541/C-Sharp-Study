@@ -125,9 +125,8 @@ private void Form1_Paint(object sender, PaintEventArgs e)
  {
     e.Graphics.DrawString(strMessage, Font, Brushes.Black, 10, 10);
  }
-
-
+```
 ---
 
 출처 : C#으로 살아남기 16강 - 나우캠퍼스
-```
+
