@@ -3,6 +3,7 @@
 ### Click vs MouseClick
 
 Click : 마우스 클릭
+
 MouseClick : 컨트롤 위에서 마우스 클릭
 
 * 폼도 컨트롤을 상속하므로 폼 위에서 클릭은 Click() -> MouseClick()
@@ -33,7 +34,7 @@ MouseEventArgs.X , MouseEventArgs.Y
 ```c#
         private void Form1_MouseMove(object sender, MouseEventArgs e)
         {
-            strMousePos += "X :" + e.X + "Y :" + e.Y;
+            strMousePos = "X :" + e.X + "Y :" + e.Y;
             Invalidate();
         }
 
