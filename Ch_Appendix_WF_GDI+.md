@@ -124,3 +124,64 @@ Pen과 Pens 사용 예
             newPen.Dispose();
         }
 ```
+
+## 펜 스타일 
+
+### DashStyle 속성 사용
+public System.Drawing.Drawing2D.DashStyle DashStyle {get;set;}
+
+* Using System.Drawing.Drawind2D 선언
+
+* DashStyle 열거형 리턴
+ * Custom, Dash, DashDot, DashDotDot, Dot, Solid(실선)
+ 
+DashDot와 Dot 선 스타일 지정, 너비 3으로 설정
+```c#
+        private void Form1_Paint(object sender, PaintEventArgs e)
+        {
+            Pen myPen = new Pen(Color.Black, 3.0f);
+            myPen.DashStyle = DashStyle.DashDot;
+            e.Graphics.DrawLine(myPen, 10, 10, 200, 10);
+            myPen.DashStyle = DashStyle.Dot;
+            e.Graphics.DrawLine(myPen, 10, 20, 200, 20);
+            
+            newPen.Dispose();
+        }
+```
+
+## 브러쉬
+
+* 역할 : **도형 내부를 색 또는 패턴** 으로 채우는 역할
+* 브러시 종류 : SolidBrush, HatchBrush, TextureBrush... 등
+* 브러시를 요구하는 메서드의 공통점 : Fill~~~ 으로 시작
+
+#### SolidBrush 단색 브러시
+
+* 도형 전체를 한가지 색으로 채우는 브러시
+
+파란색으로 채우는 원 출력
+```c#
+        private void Form1_Paint(object sender, PaintEventArgs e)
+        {
+            SolidBrush mybrush  = new SolidBrush(Color.Blue);
+            e.Graphics.FillEllipse(mybrush, 10, 10, 100, 100); // Ellipse에 색 채워넣기
+            mybrush.Dispose();
+        }
+```
+
+#### HatchBrush 패넡 브러시
+
+* 격자 패턴으로 도형을 채우는 브러시
+
+* Using System.Drawing.Drawind2D 선언
+
+
+전경색은 빨간색, 배경은 파란색으로 출력
+```c#
+        private void Form1_Paint(object sender, PaintEventArgs e)
+        {
+            HatchBrush Hash = new HatchBrush(HatchStyle.Plaid, Color.Red, Color.Blue);
+            e.Graphics.FillRectangle(Hash, 100, 100, 200, 200);
+            Hash.Dispose();
+        }
+```
