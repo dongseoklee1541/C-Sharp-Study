@@ -90,3 +90,58 @@ public void SetPixel(int x, int y, Color color)
         }
     }
 ```
+
+### 더블 버퍼링
+이미지의 출력의 깜빡임을 줄이기 위한 처리. 원본 화면과 똑같은 크기의 백버퍼를 미리 준비해놓고, 필요할때 불러서 화면전환 하는 방식으로 사용한다.
+
+* 용어 : 백버퍼, 오프스크린
+
+* 더블 버퍼링 관련된 객체
+ * BufferedGraphicsManager class <- 참조 ---- BufferedGraphicsContext class ---- 생성 -> **BufferedGraphics class(실체)**
+ 
+* 폼의 DoubleBuffered 속성 true로 설정
+
+* DoubleBuffered 속성 코드로 설정하는 방법 : SetStyle(ControlStyles.OptimizedDoubleBuffer, true); 이지만 속성 값을 트루로 바꾸는게 더 편함
+
+* 더블 버퍼링에 출력하는 객체와 메서드
+  * BufferedGraphics.Graphics
+  * BufferedGraphics.Graphics.DrawImage() : 그리기
+  * BufferedGraphics.Graphics.Clear() : 더블버퍼 지우기
+  
+* 화면에 출력 : BufferedGraphics.Render() : public void Render( Graphics target)
+
+더블 버퍼링 객체 생성, 더블버퍼링을 이용하여 이미지 출력, 배경은 Yellow, 이미지 100번 출력
+```c#
+    public partial class Form1 : Form
+    {
+        BufferedGraphicsContext context; // 필수 사항
+        BufferedGraphics graphics; // 필수 사항
+        Image myImage;
+
+        public Form1()
+        {
+            InitializeComponent();
+
+            context = BufferedGraphicsManager.Current; // 참조
+            context.MaximumBuffer = new Size(850, 850); // 백버퍼 크기 설정
+            graphics = context.Allocate(CreateGraphics(),
+                new Rectangle(0, 0, 850, 850)); // 버퍼 그래픽스 객체 생성 및 참조
+            graphics.Graphics.Clear(Color.Yellow); // 노란색으로 백버퍼가 지워짐
+            myImage = Image.FromFile("C:/Users/dlsef/source/repos/WindowsFormsApp1/WindowsFormsApp1/obj/Debug/1546432834.jpg");
+            SetClientSizeCore(850, 850);
+           
+        }
+        private void Form1_Paint(object sender, PaintEventArgs e)
+        {
+            // 더블 버퍼에 출력
+            Random rand = new Random();
+            for(int i=0;i<100;i++)
+            {
+                graphics.Graphics.DrawImage(myImage,
+                    rand.Next(0, 700), rand.Next(0, 500));
+            } // 모두 백버퍼에 출력된 상태
+
+            //화면에 출력, 백버퍼에 저장된 녀석들을 메인화면으로 넘겨주세요.
+            graphics.Render(e.Graphics); 
+        }
+```
