@@ -108,7 +108,7 @@ UI 컨트롤을 생성하고 이 컨트롤의 윈도우 핸들을 소유한 쓰�
 ### WinForm UI Thread 
 WinForm의 UI 컨트롤들은 Control 클래스로부터 파생된 클래스들이며, Control 클래스는 UI 컨트롤이 
 UI 쓰레드에서 돌고 있는지를 체크하는 InvokeRequired 속성을 갖고 있으며, 만약 작업쓰레드에서 실행되고 있는
-경우 Control 클래스의 Invoke()나 BeginInvoke() 메소드를 사용하여 UI 쓰레드로 작업 요청을 보낸다.
+경우 Control 클래스의 Invoke(동기 호출)나 BeginInvoke(비동기 호출) 메소드를 사용하여 UI 쓰레드로 작업 요청을 보낸다.
 
 ```C#
 using System;
